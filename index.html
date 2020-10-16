@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Consumo api (Integrador)</title>
+</head>
+<body>
+    <div id="app">
+        <h2>{{titulo}}</h2>
+        <button v-on:click="consumirApi" class="btn-success">Buscar</button>
+        <div v-for="p in posts">
+            <h4>Numero Cuenta Corriente: </h4> <p>{{p.NroCuentaCorriente}}</p>
+            <h4>Saldo: </h4> <p>{{p.Saldo}}</p>
+            <h4>Razon Social de Proveedor: </h4> <p>{{p.Proveedor.RazonSocial}}</p>
+            <h4>CUIT de Proveedor: </h4> <p>{{p.Proveedor.CUIT}}</p>
+            <h4>Email de Proveedor: </h4> <p>{{p.Proveedor.Email}}</p>
+            <hr>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+               titulo: 'Listado de cuentas corrientes de proveedores',
+               posts: null
+            },
+            methods: {
+                consumirApi: function(){
+                    this.$http.get('http://localhost/isei-ds-trabajo-integrador/api/CuentaCorriente.php').then(function(respuesta){
+                        this.posts = respuesta.body;
+                    });                  
+                }
+            }
+        });
+    </script>
+</body>
+</html>
