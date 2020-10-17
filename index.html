@@ -10,14 +10,26 @@
     <div id="app">
         <h2>{{titulo}}</h2>
         <button v-on:click="consumirApi" class="btn-success">Buscar</button>
-        <div v-for="p in posts">
-            <h4>Numero Cuenta Corriente: </h4> <p>{{p.NroCuentaCorriente}}</p>
-            <h4>Saldo: </h4> <p>{{p.Saldo}}</p>
-            <h4>Razon Social de Proveedor: </h4> <p>{{p.Proveedor.RazonSocial}}</p>
-            <h4>CUIT de Proveedor: </h4> <p>{{p.Proveedor.CUIT}}</p>
-            <h4>Email de Proveedor: </h4> <p>{{p.Proveedor.Email}}</p>
-            <hr>
-        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Numero Cuenta Corriente</th>
+                <th scope="col">Saldo</th>
+                <th scope="col">Razon Social</th>
+                <th scope="col">CUIT</th>
+                <th scope="col">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="cc in cuentaCorriente">
+                <th scope="row">{{cc.NroCuentaCorriente}}</th>
+                <th scope="row">{{cc.Saldo}}</th>
+                <th scope="row">{{cc.Proveedor.RazonSocial}}</th>
+                <th scope="row">{{cc.Proveedor.CUIT}}</th>
+                <th scope="row">{{cc.Proveedor.Email}}</th>
+              </tr>
+            </tbody>
+        </table>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
@@ -27,12 +39,12 @@
             el: '#app',
             data: {
                titulo: 'Listado de cuentas corrientes de proveedores',
-               posts: null
+               cuentaCorriente: null
             },
             methods: {
                 consumirApi: function(){
                     this.$http.get('http://localhost/isei-ds-trabajo-integrador/api/CuentaCorriente.php').then(function(respuesta){
-                        this.posts = respuesta.body;
+                        this.cuentaCorriente = respuesta.body;
                     });                  
                 }
             }
